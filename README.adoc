@@ -1,0 +1,89 @@
+= Gauche-ulid
+
+An link:https://github.com/ulid/spec[ULID] implementation in link:http://practical-scheme.net/gauche/index.html[Gauche].
+
+== Requirement
+
+* Gauche 0.9.7 or later
+
+== API
+
+[#typ:ulid]
+=== Record Type: <ulid>
+
+ULID type.
+
+[#proc:make-ulid]
+=== Procedure: make-ulid :optional (timestamp #f) (random #f)
+
+Creates an link:#type:ulid[`<ulid>`] instance.
+
+[.var]_TIMESTAMP_ is a timestamp component of ULID.
+It should be a non-negative integer representing Unix time in milliseconds.
+Its default value is `(link:#proc:ulid:current-time[ulid:current-time])`.
+
+[.var]_RANDOM_ should be an integer or a procedure.
+If [.var]_RANDOM_ is an integer, it is used as a random component of ULID.
+If [.var]_RANDOM_ is a procedure, it is called with two arguments,
+a byte-size and a timestamp, and should return a random component of ULID,
+a non-negative integer that fits in the given byte-size.
+[.var]_RANDOM_ procedure may use the timestamp argument to ensure link:https://github.com/ulid/spec#monotonicity[monotonicity].
+If [.var]_RANDOM_ is not specified, a random intger generated
+with link:#proc:ulid:urand-read-integer[`ulid:urand-read-integer`]
+or link:#proc:ulid:random-integer[`ulid:random-integer`] is used.
+
+[#proc:ulid-timestamp]
+=== Procedure: ulid-timestamp ulid
+
+Extracts the timestamp component of [.var]_ULID_.
+
+[#proc:ulid-time]
+=== Procedure: ulid-time ulid
+
+Extracts the timestamp component of [.var]_ULID_ as a SRFI-19 link:http://practical-scheme.net/gauche/man/?l=en&p=<time>[`<time>`].
+
+[#proc:ulid-random]
+=== Procedure: ulid-random ulid
+
+Extracts the random component of [.var]_ULID_.
+
+[#proc:ulid->string]
+=== Procedure: +ulid->string+ ulid
+
+Converts [.var]_ULID_ into a string representation.
+
+[#proc:stirng->ulid]
+=== Procedure: +string->ulid+ str
+
+Parses [.var]_STR_ as an ULID.
+
+[#proc:ulid->bytevector]
+=== Procedure: +ulid->bytevector+ ulid
+
+Converts [.var]_ULID_ into a binary representation.
+
+[#proc:bytevector->ulid]
+=== Procedure: +bytevector->ulid+ bytevector
+
+Parses [.var]_BYTEVECTOR_ as an ULID.
+
+[#proc:ulid:current-time]
+=== Procedure: ulid:current-time
+
+Returns the current time in Unix time milliseconds.
+
+[#proc:ulid:urand-read-integer]
+=== Procedure: ulid:urand-read-integer byte-size timestamp
+
+Reads a [.var]_BYTE-SIZE_ bytes non-negative integer from `/dev/urandom`.
+If `/dev/urandom` is not available, this procedure returns false.
+This procedure does not use [.var]_TIMESTAMP_ argument.
+
+[#proc:ulid:random-integer]
+=== Procedure: ulid:random-integer byte-size timestamp
+
+Generates a [.var]_BYTE-SIZE_ bytes non-negative integer by using SRFI-27
+link:http://practical-scheme.net/gauche/man/?l=en&p=random-integer[`random-intger`] procedure.
+This procedure does not use [.var]_TIMESTAMP_ argument.
+
+Note: this procedure may not be cryptographically secure.
