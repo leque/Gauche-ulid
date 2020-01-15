@@ -137,9 +137,9 @@
 
 (define (ulid-time ulid)
   (assume-type ulid <ulid>)
-  (let-values (((sec msec) (quotient&remainder (ulid-time ulid) (/ milli))))
+  (let-values (((sec msec) (quotient&remainder (ulid-timestamp ulid) (/ milli))))
     (make-time time-utc
-               (* msec (/ nano milli))
+               (* msec (/ milli nano))
                sec)))
 
 (define (ulid->string ulid)
