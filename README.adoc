@@ -14,7 +14,7 @@ An link:https://github.com/ulid/spec[ULID] implementation in link:http://practic
 ULID type.
 
 [#proc:make-ulid]
-=== Procedure: make-ulid :optional (timestamp #f) (random #f)
+=== Procedure: make-ulid :optional (timestamp #f) (random #f) → ulid
 
 Creates an link:#type:ulid[`<ulid>`] instance.
 
@@ -33,54 +33,54 @@ with link:#proc:ulid:urand-read-integer[`ulid:urand-read-integer`]
 or link:#proc:ulid:random-integer[`ulid:random-integer`] is used.
 
 [#proc:ulid-timestamp]
-=== Procedure: ulid-timestamp ulid
+=== Procedure: ulid-timestamp ulid → integer
 
 Extracts the timestamp component of [.var]_ULID_.
 
 [#proc:ulid-time]
-=== Procedure: ulid-time ulid
+=== Procedure: ulid-time ulid → time-utc
 
 Extracts the timestamp component of [.var]_ULID_ as a SRFI-19 link:http://practical-scheme.net/gauche/man/?l=en&p=<time>[`<time>`].
 
 [#proc:ulid-random]
-=== Procedure: ulid-random ulid
+=== Procedure: ulid-random ulid → integer
 
 Extracts the random component of [.var]_ULID_.
 
 [#proc:ulid->string]
-=== Procedure: +ulid->string+ ulid
+=== Procedure: +ulid->string+ ulid → string
 
 Converts [.var]_ULID_ into a string representation.
 
 [#proc:stirng->ulid]
-=== Procedure: +string->ulid+ str
+=== Procedure: +string->ulid+ str → ulid
 
 Parses [.var]_STR_ as an ULID.
 
 [#proc:ulid->bytevector]
-=== Procedure: +ulid->bytevector+ ulid
+=== Procedure: +ulid->bytevector+ ulid → u8vector
 
 Converts [.var]_ULID_ into a binary representation.
 
 [#proc:bytevector->ulid]
-=== Procedure: +bytevector->ulid+ bytevector
+=== Procedure: +bytevector->ulid+ bytevector → ulid
 
 Parses [.var]_BYTEVECTOR_ as an ULID.
 
 [#proc:ulid:current-time]
-=== Procedure: ulid:current-time
+=== Procedure: ulid:current-time → integer
 
 Returns the current time in Unix time milliseconds.
 
 [#proc:ulid:urand-read-integer]
-=== Procedure: ulid:urand-read-integer byte-size timestamp
+=== Procedure: ulid:urand-read-integer byte-size timestamp → integer
 
 Reads a [.var]_BYTE-SIZE_ bytes non-negative integer from `/dev/urandom`.
 If `/dev/urandom` is not available, this procedure returns false.
 This procedure does not use [.var]_TIMESTAMP_ argument.
 
 [#proc:ulid:random-integer]
-=== Procedure: ulid:random-integer byte-size timestamp
+=== Procedure: ulid:random-integer byte-size timestamp → integer
 
 Generates a [.var]_BYTE-SIZE_ bytes non-negative integer by using SRFI-27
 link:http://practical-scheme.net/gauche/man/?l=en&p=random-integer[`random-intger`] procedure.
